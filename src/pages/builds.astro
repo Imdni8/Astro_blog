@@ -1,0 +1,30 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+const allEssays = await getCollection('essays');
+const essays: CollectionEntry<'essays'>[] = allEssays.filter(essay => essay.data.tag === 'Build');
+---
+
+<MainLayout title="Builds - HeySekai">
+	<div class="pt-12">
+		{essays.map((essay) => (
+			<div class="w-full px-8 py-4 border-b border-black/50 flex justify-between items-center">
+				<a href={`/essays/${essay.slug}`} class="text-[#333333] text-xl font-[500] font-['Roboto_Serif'] leading-6 hover:italic w-full">
+					{essay.data.title}
+				</a>
+			</div>
+		))}
+	</div>
+</MainLayout>
+
+<style>
+	@font-face {
+		font-family: 'Silkscreen';
+		src: url('https://fonts.googleapis.com/css2?family=Silkscreen&display=swap');
+	}
+	@font-face {
+		font-family: 'Roboto Serif';
+		src: url('https://fonts.googleapis.com/css2?family=Roboto+Serif:wght@500&display=swap');
+	}
+</style>

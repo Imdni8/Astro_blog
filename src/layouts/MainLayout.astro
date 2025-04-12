@@ -1,0 +1,94 @@
+---
+const { title = "HeySekai" } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400&display=swap" rel="stylesheet">
+		<title>{title}</title>
+	</head>
+	<body class="min-h-screen flex flex-col">
+		<header class="pt-6">
+			<nav class="max-w-layout mx-auto px-4">
+				<div class="flex justify-between items-center gap-20">
+					{currentPath === '/about' ? (
+						<div class="flex-1">
+							<a href="/essays" class="inline-flex items-center text-[#0000EE] hover:text-[#FF6B00]">
+								<svg class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+									<path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+								</svg>
+								Back
+							</a>
+						</div>
+					) : (
+						<>
+							<!-- Filter Group Container -->
+							<div class="flex-1 p-2 rounded-xl bg-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]">
+								<div class="flex gap-4 items-center">
+									<a href="/essays" class={`flex-1 p-2 rounded-lg flex justify-center items-center font-silkscreen ${currentPath === '/essays' ? 'bg-[#FF9900]' : ''}`}>
+										<div class="text-[#282828] text-base font-[400]">All</div>
+									</a>
+									<a href="/builds" class={`flex-1 p-2 rounded-lg flex justify-center items-center font-silkscreen ${currentPath === '/builds' ? 'bg-[#FF9900]' : ''}`}>
+										<div class="text-[#282828] text-base font-[400]">Builds</div>
+									</a>
+									<a href="/ideas" class={`flex-1 p-2 rounded-lg flex justify-center items-center font-silkscreen ${currentPath === '/ideas' ? 'bg-[#FF9900]' : ''}`}>
+										<div class="text-[#282828] text-base font-[400]">Ideas</div>
+									</a>
+									<a href="/onions" class={`flex-1 p-2 rounded-lg flex justify-center items-center font-silkscreen ${currentPath === '/onions' ? 'bg-[#FF9900]' : ''}`}>
+										<div class="text-[#282828] text-base font-[400]">Onions</div>
+									</a>
+								</div>
+							</div>
+
+							<!-- Right nav items -->
+							<div class="hidden sm:flex">
+								<a href="/about" class="text-[#0000EE] hover:text-[#FF6B00]">About</a>
+							</div>
+
+							<!-- Mobile menu button -->
+							<button type="button" id="menuButton" class="sm:hidden" aria-label="Open menu">
+								<svg class="h-6 w-6 text-[#3B0087]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+								</svg>
+							</button>
+						</>
+					)}
+				</div>
+			</nav>
+
+			<!-- Mobile menu - Only show on non-about pages -->
+			{!currentPath.includes('/about') && (
+				<div id="mobileMenu" class="sm:hidden hidden mt-4">
+					<div class="px-4 py-2 space-y-2">
+						<a href="/about" class="block text-[#0000EE] hover:text-[#FF6B00]">About</a>
+					</div>
+				</div>
+			)}
+		</header>
+
+		<main class="flex-grow max-w-layout mx-auto px-4">
+			<slot />
+		</main>
+
+		<footer class="py-8">
+			<div class="max-w-layout mx-auto px-4 text-center space-y-2">
+				<a href="/essays" class="text-2xl text-[#3B0087]">HeySekai</a>
+				<p class="text-black">Made/Tousif ©2025 All rights reserved</p>
+			</div>
+		</footer>
+
+		<script>
+			const menuButton = document.getElementById('menuButton');
+			const mobileMenu = document.getElementById('mobileMenu');
+
+			menuButton?.addEventListener('click', () => {
+				mobileMenu?.classList.toggle('hidden');
+			});
+		</script>
+	</body>
+</html>

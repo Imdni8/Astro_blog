@@ -1,0 +1,22 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+
+export async function getStaticPaths() {
+    const essays = await getCollection('essays');
+    return essays.map((entry: CollectionEntry<'essays'>) => ({
+        params: { slug: entry.slug },
+        props: { entry },
+    }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<MainLayout title={`${entry.data.title} - HeySekai`}>
+    <article class="prose prose-stone max-w-none">
+        <h1 class="text-2xl font-normal mb-12">{entry.data.title}</h1>
+        <Content />
+    </article>
+</MainLayout>
